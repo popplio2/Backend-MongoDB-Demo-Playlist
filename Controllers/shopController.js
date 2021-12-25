@@ -28,6 +28,31 @@ exports.getShops = async (req, res) => {
         res.json(Shops);
     } catch (error) {
         console.log(error);
-
     }
-}
+};
+
+exports.updateShop = async (req, res) => {
+    try {
+        const shop = await Shop.findById(req.params.id);
+        const updates = Object.keys(req.body);
+        updates.forEach(update => {
+            shop[update] = req.body[update]; //shop's information = updated information
+        });
+        await shop.save();
+        res.json(shop);
+    } catch (error) {
+        console.log(error);
+    }
+};
+
+exports.deleteShop = async (req, res) => {
+    try {
+        const shop = await Shop.findByIdAndDelete(req.params.id);
+        if(!shop) {
+            res.status(404).send();
+        }
+        res.send(`${shop.name} was deleted from the database.`)
+    } catch (error) {
+        console.log(error);
+    }
+};
