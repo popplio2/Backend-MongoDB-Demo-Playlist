@@ -16,8 +16,18 @@ exports.createShop = async (req, res) => {
     try {
         const shop = new Shop(req.body);
         await shop.save();
-        res.json(`You have saved the shop ${shop}.`);
+        res.json(`You have saved the shop ${shop.name}.`);
     } catch (error) {
         res.status(500).json(error);
     }
 };
+
+exports.getShops = async (req, res) => {
+    try {
+        const Shops = await Shop.find().limit(2);
+        res.json(Shops);
+    } catch (error) {
+        console.log(error);
+
+    }
+}
